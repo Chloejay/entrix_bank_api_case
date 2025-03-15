@@ -46,8 +46,6 @@
 
 <hr>
 
-<h4> Current main API Category</h4>
-<img src=docs/imgs/apis.png>
 
 <h4> Set up </h4>
 config database info in the `.env` for environment variable usage for data model creation and database query operations. (I skipped add `.env` file in git repo.)
@@ -89,11 +87,9 @@ http://localhost:8000/redoc
 
 
 <h2> Test sceanrios</h2>
+<img src=docs/imgs/final_apis.png>
+
 <h4>Test documentation</h4>
-<p>This is the relatively initial endpoint category. I updated this endpoint later dueing the end phase of development and testing. I kept the initial endpoints here for the path of thinking derivatives.</p>
-
-<img src=docs/imgs/updated_apis.png>
-
 <h4> Customers endpoint test</h4>
 <h6>Create a new customer.</h6>
 <img src=docs/imgs/test_customers_0.png>
@@ -208,4 +204,8 @@ INFO: 127.0.0.1:50086 - "GET /accounts/transaction_history?bank_id=DE13504952221
 <img src=docs/imgs/retrieve_transaction_history.png>
 <hr>
 
-<img src=docs/imgs/final_apis.png>
+
+# for the feedback 
+1. not very clear documentation 
+2. how to handle error gracefully 
+3. not having meaningful tests 
