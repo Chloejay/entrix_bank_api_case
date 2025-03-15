@@ -44,11 +44,7 @@
     </li>
 </ul>
 
-<i>Still more space to work on, I would like have a chance to discuss design design and to_be_implemnattaion parts, be it refactoring code using more efficient data structure if apply, more unittest for test coverage, more end to end test, to setup CI and also dockerization this project, also write documenatation using Sphinx, last but not least refactoring code for better naming, be it function name, or class name or even docstrings.
-
 <hr>
-
-Additionally for this project scope I didn't use any cloud storage for implemtation, would need consider use distributed system approach for scalability and availability.</i>
 
 <h4> Current main API Category</h4>
 <img src=docs/imgs/apis.png>
@@ -60,7 +56,7 @@ But, just config locally for sqlalchemy_url is sufficient.
 ```bash
 poetry install 
 poetry env activate 
-poetry run uvicorn app:app --reload
+poetry run uvicorn main:app --reload
 http://localhost:8000/docs
 
 http://localhost:8000/redoc
@@ -211,7 +207,5 @@ INFO: 127.0.0.1:50086 - "GET /accounts/transaction_history?bank_id=DE13504952221
 
 <img src=docs/imgs/retrieve_transaction_history.png>
 <hr>
-
-Before submmiting this, I commented out other three unimplemented routes `urd` in the Customers API category, for cleanup, therefore the latest version will be only the `c` in this category. I would like to implement more features further for this task, for some TODOs item mentioned above on this weekend after working hours.
 
 <img src=docs/imgs/final_apis.png>
