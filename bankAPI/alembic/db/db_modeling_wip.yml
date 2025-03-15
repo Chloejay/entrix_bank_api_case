@@ -1,0 +1,59 @@
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table customers {
+  id UUID [primary key]
+
+  first_name varchar [not null]
+  middle_name varchar 
+  last_name varchar [not null]
+  nationality varchar
+  gender integer
+
+  birth_country varchar
+  birth_date datetime
+  city varchar 
+  full_address varchar
+  postal_code varchar
+
+  phone varchar [not null, unique]
+  email varchar [not null, unique]
+  identification_card_number varchar 
+  iban varchar
+  default_deposit DECIMAL
+  expiration_date timestamp
+  
+  created_at timestamp
+  updated_at timestamp
+}
+
+
+Table accounts {
+  id integer [primary key]
+  customer_id FK 
+  iban varchar [not null, unique]
+  balance DECIMAL 
+  currency VARCHAR
+  status varchar  
+  
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table transactions {
+  id integer [primary key]
+
+  from_account_id varchar UNIQUE FK
+  to_account_id varchar UNIQUE FK
+  amount Integer [not null]
+  currency VARCHAR 
+  status VARCHAR
+
+  transaction_date timestamp 
+  
+  created_at timestamp
+}
+
+
+Ref: "customers"."id" < "accounts"."customer_id"
+Ref: "transactions"."from_account_id" < "accounts"."id"
+Ref: "transactions"."to_account_id" < "accounts"."id"

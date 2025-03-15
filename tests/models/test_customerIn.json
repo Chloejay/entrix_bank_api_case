@@ -1,0 +1,28 @@
+{
+  "first_name": "Kathline",
+  "middle_name": "string",
+  "last_name": "Buckley",
+  "gender": "2",
+  "address": {
+    "street_name": "",
+    "street_number": "",
+    "houseNumber": "",
+    "postal_code": "",
+    "country": "",
+    "city": ""
+  },
+  "contact": {
+    "email": "test@gmail.com",
+    "phone_number": "+49 16262099000"
+  },
+  "biography": {
+    "nationality": "GP",
+    "birth_country": "GF",
+    "birth_date": "1981-09-27",
+    "identification_card_number": "06fd2018-e10c-4a12-aa46-4494f325a83c"
+  },
+  "default_deposit": 1000,
+  "created_date": "2025-03-10T12:04:34.811Z",
+  "updated_date": "2025-03-10T12:04:34.811Z",
+  "password": "q~\\nPrB`"
+}
