@@ -3,12 +3,10 @@
 ############################################################
 
 from decimal import Decimal
-from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from pydantic import Field
 from sqlalchemy.exc import SQLAlchemyError
 
 from bankAPI.alembic.db.db import DBAdapter
@@ -21,7 +19,7 @@ router = APIRouter(
     prefix='/customers',
     tags=['bank_customers'],
     responses={
-        status.HTTP_422_UNPROCESSABLE_ENTITY: {'description': 'data model validation error'},
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {'model': JSONResponse, 'description': 'data model validation error'},
         status.HTTP_201_CREATED: {'model': CustomerOut, 'description': 'create a new customer'},
     },
 )
@@ -39,15 +37,17 @@ async def createAccount(
 
     Args:
         customer (CustomerIn): Customer input data contains required peronsal information.
-        iban: str: The European bank account that created for this customer once opening a new account.
-        default_deposit: Decimal:The default balance in bank account when a new customer opens an account.
-        currency: Currency:The currency of amount.
+        iban (str): The European bank account that created for this customer once opening a new account.
+        default_deposit(Decimal):The default balance in bank account when a new customer opens an account.
+        currency(Currency) :The currency of amount.
 
     Returns:
         CustomerOut: Customer personal data, exclused the password to print out for data security.
     """
     if default_deposit <= 0:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail= "default deposit must be positive.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail='default deposit must be positive.'
+        )  # TODO: unittest
     customer: CustomerIn = await DBAdapter().create_customer(
         customer=customer, iban=iban, default_deposit=default_deposit, currency=currency
     )
@@ -63,7 +63,18 @@ async def createAccount(
 async def create_new_customer(
     *, customer: CustomerIn, iban: str, default_deposit: Decimal, currency: Currency
 ) -> JSONResponse:
-    """Create a new Bank customer"""
+    """Create a new Bank customer.
+
+    Args:
+        customer (CustomerIn): Customer input data contains required peronsal information.
+        iban (str): The European bank account that created for this customer once opening a new account.
+        default_deposit(Decimal):The default balance in bank account when a new customer opens an account.
+        currency(Currency) :The currency of amount.
+
+    Returns: JSONResponse
+
+    Raises: Exceptions server error or duplicated error.
+    """
     try:
         customer = await createAccount(customer=customer, iban=iban, default_deposit=default_deposit, currency=currency)
         customer = CustomerOut.from_orm(customer)
@@ -75,7 +86,7 @@ async def create_new_customer(
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     except DuplicatedEntityException as e:
         logger.error(e)
-        raise HTTPException(status_code=409, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
 
 
 # @router.get('/all', summary='Get all customers by pagination.')
