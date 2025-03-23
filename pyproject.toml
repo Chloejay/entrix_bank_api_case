@@ -15,7 +15,7 @@ readme = ["README.md"]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.14"
-pydantic = "^2.10.6"
+pydantic = {version= "^2.10.6", extras = ["email"]}
 fastapi = "^0.115.11"
 typer = "^0.15.2"
 tomlkit = "^0.13.2"
@@ -35,6 +35,7 @@ asyncpg = "^0.30.0"
 mimesis = "^18.0.0"
 pytest = "^8.3.5"
 pytest-asyncio = "^0.25.3"
+pydantic-settings = "^2.8.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^3.0"

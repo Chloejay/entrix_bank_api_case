@@ -13,8 +13,8 @@ router = APIRouter(
     prefix='/transactions',
     tags=['bank_account_transactions'],
     responses={
-        status.HTTP_422_UNPROCESSABLE_ENTITY: {'model': JSONResponse, 'description': 'data model validation error.'},
-        status.HTTP_200_OK: {'model': JSONResponse, 'description': 'retrieve transaction information.'},
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {'description': 'data model validation error.'},
+        status.HTTP_200_OK: {'description': 'retrieve transaction information.'},
     },
 )
 
@@ -31,8 +31,12 @@ router = APIRouter(
 async def transfer_amount(*, transaction: Transactions):
     """Make a new transaction between two accounts.
 
-    Args:
-        transaction (Transcation): pydantic transaction model.
+    **Args:**
+    - transaction (Transcation): pydantic transaction model.
+
+    **Returns:**
+
+    **Raises:**
     """
     new_transaction, error = await DBAdapter().make_transaction(
         transaction.from_account_id, transaction.to_account_id, transaction.amount, transaction.currency

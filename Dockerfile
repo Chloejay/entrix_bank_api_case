@@ -1,16 +1,26 @@
 FROM python:3.12.1 as base 
 
 #install Poetry and set environement
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH = "/root/.local/bin:$PATH"
+RUN curl -sSL https://install.python-poetry.org | python3 - && \
+    ln -s /root/.local/bin/poetry /usr/local/bin/poetry
 
-# create app folder
+ENV PATH="/root/.local/bin:$PATH"
+
+# Set working directory
 WORKDIR /app
 
-COPY poetry.lock pyproject.toml ./
+# Copy app files
+COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --no-interaction --no-dev
-COPY . . 
+RUN poetry install --no-interaction  --no-root
 
-EXPOSE 8080
-CMD ["uvicorn", "main:app", "--host", "0,0,0,0","--port", "8000"]
+RUN poetry config virtualenvs.in-project false && \
+    poetry install --no-interaction --no-root && \
+    export POETRY_VENV=$(poetry env info -p) && \
+    export PATH="$POETRY_VENV/bin:$PATH"
+
+#Copy app source code
+COPY . .
+
+EXPOSE 8082
+CMD ["poetry", "run", "uvicorn", "bankAPI.main:app", "--host", "0.0.0.0","--port", "8082"]
