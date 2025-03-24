@@ -23,16 +23,13 @@
         I do have few concerns and later design before this need go to production or even testing in staging internally.
             <ol>
                 <li>
-                For how to store passwords, I currently will not save customer bank password in database, for data security, for full functionality or integration with external vendor system, need store encrypted password in a seperate table. This is currently is not implemented. 
+                For how to store passwords, I currently will not save customer bank password in database, for data security, for full functionality or integration with external vendor system, need store encrypted/hashed password in a seperate table.
                 </li>
                 <li>
                 For the Docker and CICD yml file, need to implement.
                 </li>
                 <li>
-                For Unittest I use memisis, hypothesis and pytest, this is follow TDD. 
-                </li>
-                <li>
-                For auth& authorization, this is normally the first steps when building APIs or web apps, I will impl this based on time frame.
+                For auth& authorization, this is normally the first step when building APIs or web apps, I will implement this based on time frame.
                 </li>
                 <li>
                 To store customer documentaion, need implement using cloud storage, be it GCP. (Will skip for this task scope).
@@ -203,4 +200,3 @@ INFO: 127.0.0.1:50086 - "GET /accounts/transaction_history?bank_id=DE13504952221
 ````
 
 <img src=docs/imgs/retrieve_transaction_history.png>
-<hr>
