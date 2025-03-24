@@ -13,6 +13,7 @@ from bankAPI.model.biography import Biography
 from bankAPI.model.contact import Contact
 from bankAPI.model.customers import CustomerIn
 from bankAPI.model.gender import Gender
+from bankAPI.model.utility import IBAN
 
 
 @pytest.fixture
@@ -45,3 +46,7 @@ def mock_customer():  # noqa
 @pytest.fixture
 def existed_iban():  # noqa
     return 'DE86997513256182021252'
+
+@pytest.fixture 
+def random_iban(): #noqa
+    return IBAN.random().iban
