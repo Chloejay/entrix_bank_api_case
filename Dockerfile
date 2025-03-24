@@ -23,4 +23,5 @@ RUN poetry config virtualenvs.in-project false && \
 COPY . .
 
 EXPOSE 8082
-CMD ["poetry", "run", "uvicorn", "bankAPI.main:app", "--host", "0.0.0.0","--port", "8082"]
+#CMD ["poetry", "run", "uvicorn", "bankAPI.main:app", "--host", "0.0.0.0","--port", "8082"]
+CMD ["sh", "-c", "poetry run uvicorn bankAPI.main:app --host 0.0.0.0 --port 8082"]

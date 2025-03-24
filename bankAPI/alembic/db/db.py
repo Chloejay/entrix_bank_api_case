@@ -9,7 +9,7 @@ from decimal import Decimal
 from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from sqlalchemy import or_, select
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from bankAPI.alembic.db.exceptions import DuplicatedEntityException
@@ -48,7 +48,7 @@ class DBSingleton(type):
         return cls._instances[cls]
 
 
-class DBAdapter(metaclass=DBSingleton):
+class DBAdapter:#noqa
     def __init__(self):
         self._initialize_engine()
 
@@ -72,24 +72,6 @@ class DBAdapter(metaclass=DBSingleton):
         """Provide an async session as a context manager."""
         async with self.session_factory() as session:
             yield session
-
-    # async def get_all_customers(self):
-    #     """Get all customers as endpoint test in swagger."""
-    #     async for session in self.session():
-    #         result = await session.execute('SELECT * FROM customers;')
-    #         return result.fetchall()
-
-    # async def get_customer_by_id(self):
-    #     """Retrieve customer by email."""
-    #     pass
-
-    # async def delete_customer_by_id(self):
-    #     """Delete customer by email."""
-    #     pass
-
-    async def update_customer_by_id(self):
-        """Modify customer personal information by email."""
-        pass
 
     async def create_customer(self, customer: CustomerIn, iban: str, default_deposit: Decimal, currency: Currency):
         """Create a new customer and store in customers table."""
@@ -120,15 +102,13 @@ class DBAdapter(metaclass=DBSingleton):
                     await session.commit()
                     session.refresh(account_db)
                     return customer_db
-
-            except SQLAlchemyError as e:
-                logger.error(f'Error creating customer: {e}.')
+            except IntegrityError:
                 await session.rollback()
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Internal server error.')
+                raise HTTPException(status_code= status.HTTP_409_CONFLICT, detail= "Duplicated customer.")
             except Exception:
                 await session.rollback()
                 logger.error('Failed to store a new customer.', exc_info=True)
-                raise
+                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Internal server error.')
 
     async def get_customer_by_email(self, email: str):
         """Retrieve customer by its email."""

@@ -68,7 +68,7 @@ class SharedAccountBase(BaseModel):
     """Both internal employers and external bank customers shared some similar attributes"""
 
     first_name: str = Field(default=Person().first_name(), title='First Name')
-    middle_name: str | None = Field(default=None, title='Middle Name')
+    middle_name: str | None = Field(default="", title='Middle Name')
     last_name: str = Field(default=Person().last_name(), title='Last Name')
     # email_address: str
 

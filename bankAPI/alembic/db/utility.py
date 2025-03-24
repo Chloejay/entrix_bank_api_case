@@ -4,9 +4,6 @@
 
 from datetime import datetime, timedelta
 from decimal import Decimal
-from typing import Annotated
-
-from pydantic import Field
 
 from bankAPI.alembic.db.models import BankAccounts as AccountsDB
 from bankAPI.alembic.db.models import Customers as CustomersDB
@@ -57,7 +54,3 @@ def toAccountDB(account: Account, customer_id):
         created_date=account.created_date,
         expiration_date=account.expiration_date,
     )
-
-
-# def toTransactionDB(transaction: TranscationDB):
-#     pass
